@@ -11,9 +11,16 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
 with open('data/section_classification.json','r') as f:
     CLASSIFICATIONS=json.load(f)
+    # Build reverse lookup: IPC section → BNS key
+    IPC_TO_BNS = {}
+    for key, data in CLASSIFICATIONS.items():
+        if key.startswith("BNS_") and data.get("ipc_equivalent"):
+            IPC_TO_BNS[data["ipc_equivalent"]] = key
+
 
 def format_docs(docs):
     """Format retrieved docs with classification data."""
@@ -29,6 +36,10 @@ def format_docs(docs):
 
         prefix = "BNS" if "Bharatiya" in act else "IPC"
         key = f"{prefix}_{section}"
+        if key not in CLASSIFICATIONS and prefix == "IPC":
+            bns_key = IPC_TO_BNS.get(section)
+            if bns_key:
+                key = bns_key
         if key in CLASSIFICATIONS:
             c=CLASSIFICATIONS[key]
             content+=f"\n\n⚠️ VERIFIED CLASSIFICATION (USE THESE VALUES EXACTLY):"
@@ -44,6 +55,44 @@ def format_docs(docs):
         formatted.append(f"{header}\n{content}")
     return "\n\n---\n\n".join(formatted)
 
+def expand_query(user_query, llm):
+    """Convert casual language to legal terminology."""
+    prompt = f"""You are a legal language translator. 
+Convert the user's everyday language into formal legal terminology 
+as used in Indian criminal law (Bharatiya Nyaya Sanhita / BNS).
+Rules:
+- Give exactly 3 short phrases (5-10 words each)
+- Use ONLY legal terminology — no section numbers, no act names
+- Do NOT add any explanation or commentary
+- Do NOT guess section numbers
+- Focus on the CRIME described, not the punishment
+User's words: "{user_query}"
+"""
+    response = llm.invoke(prompt).content
+    expanded = [q.strip() for q in response.strip().split("\n") if q.strip()]
+    print(f"[DEBUG] Expanded queries: {expanded}") 
+    return [user_query] + expanded[:3]
+
+
+def multi_retrieve(question, retriever, llm):
+    """Search FAISS with original + expanded queries, deduplicate."""
+
+    queries = expand_query(question, llm)
+    all_docs = []
+    for q in queries:
+        all_docs.extend(retriever.invoke(q))
+    
+    seen = set()
+    unique = []
+    for doc in all_docs:
+        key = f"{doc.metadata.get('act')}_{doc.metadata.get('section_number')}"
+        if key not in seen:
+            seen.add(key)
+            unique.append(doc)
+    unique.sort(key=lambda d: 0 if "Bharatiya" in d.metadata.get('act','') else 1)
+    return unique[:7]
+
+
 def build_rag_chain():
     'Build chat based RAG chain with memory'
 
@@ -55,60 +104,49 @@ def build_rag_chain():
         allow_dangerous_deserialization=True
     )
     retriever = vector_store.as_retriever(
-        search_type="mmr",
-        search_kwargs={"k": 5, "fetch_k": 20}
+        search_kwargs={"k": 5}
     )
     llm = ChatOpenAI(
         base_url="https://api.cerebras.ai/v1",
         api_key=os.getenv("CEREBRAS_API_KEY"),
         model='qwen-3-235b-a22b-instruct-2507',
         temperature=0.1,
-        max_tokens=700 
+        max_tokens=700
+    )
+
+    expansion_llm=ChatGroq(
+        model='llama-3.3-70b-versatile',
+        api_key=os.getenv("GROQ_API_KEY"),
+        temperature=0.1,
+        max_tokens=100  
     )
 
     prompt=ChatPromptTemplate.from_messages([
-        ("system", """You are NyayBot, an expert legal assistant for Indian criminal law.You speak in a friendly, helpful tone — like a knowledgeable lawyer friend explaining the law in simple language.
-Start by acknowledging the user's situation, then give legal details.
+        ("system", """You are NyayBot, a friendly legal assistant for Indian criminal law.
+You speak like a knowledgeable lawyer friend — acknowledge the user's situation first, then give legal details.
 ⚠️ DATABASE SCOPE: This system ONLY contains:
 - Indian Penal Code (IPC), 1860 — Valid until 30 June 2024
 - Bharatiya Nyaya Sanhita (BNS), 2023 — Valid from 1 July 2024 onwards
-IMPORTANT RULES:
-1. If the user's query falls under a DIFFERENT ACT (e.g., Child Labour Act, POCSO, IT Act, 
-   Motor Vehicles Act, Consumer Protection Act, Property Law, Contract Law, etc.):
-   - FIRST display this disclaimer:
-     "⚠️ DISCLAIMER: NyayBot's database only covers IPC (1860) and BNS (2023). 
-      The issue you described may fall under a different/specific Act not in our database.
-      Please consult a qualified lawyer for complete legal advice."
-   - THEN provide whatever relevant IPC/BNS sections might partially apply
-   - THEN mention which other Act likely applies (from your knowledge)
-2. If the query is purely CIVIL (rent disputes, contracts, bills):
-   - State clearly: "This is a civil matter, not a criminal offence under IPC/BNS."
-   - Do NOT force-fit any criminal sections
-3. For EVERY criminal law answer, you MUST include this EXACT format:
+STRICT RULES:
+1. ONLY cite sections from the RELEVANT LEGAL SECTIONS below. If a section is NOT in the context, DO NOT mention it.
+2. If NO relevant sections match the query, say: "I could not find a matching section in our database. Please rephrase or consult a qualified lawyer."
+3. If classification data (Bailable/Cognizable/Triable) is NOT shown for a section, write "Not available in database" — NEVER guess.
+4. BNS is CURRENT law (from 1 July 2024). Mention BNS first, IPC second.
+5. If the query is about a DIFFERENT ACT (Child Labour, POCSO, IT Act, etc.), state the disclaimer then provide any relevant IPC/BNS sections.
+6. If purely CIVIL, say so and do NOT force-fit criminal sections.
+FORMAT (use for EVERY answer):
 📋 **Applicable Sections:**
-- BNS Section [X]: [Title]
-- IPC Section [X]: [Title] (old law)
-⚖️ **Legal Details:**
+- [Act] Section [X]: [Title from context]
+⚖️ **Legal Details (per section):**
 | Field | Value |
 |-------|-------|
-| Punishment | [from context] |
-| Bailable | Yes/No [from Classification in context] |
-| Cognizable | Yes/No [from Classification in context] |
-| Triable by | [from Classification in context] |
+| Punishment | [ONLY from context] |
+| Bailable | [ONLY from VERIFIED CLASSIFICATION, or "Not available in database"] |
+| Cognizable | [ONLY from VERIFIED CLASSIFICATION, or "Not available in database"] |
+| Triable by | [ONLY from VERIFIED CLASSIFICATION, or "Not available in database"] |
 📅 **Validity:** BNS: from 1 July 2024 | IPC: until 30 June 2024
 📌 **Action:** [1-2 lines practical advice]
-YOU MUST FILL the Legal Details table. If classification data is in the context, USE IT.
-4. BNS is the CURRENT law. Always mention BNS first, IPC second.
-5. NEVER hallucinate. If unsure, say so.
-6. Keep answers CONCISE — maximum 15-20 lines. No repetition.
-7. When mentioning sections NOT found in our database, clearly mark them as:
-   "⚠️ [NOT IN DATABASE] Section XYZ — This information is from general legal knowledge, NOT verified from our database."
-8. Only cite sections from the RETRIEVED context as verified. Everything else must have the NOT IN DATABASE warning.
-9. The context contains "VERIFIED CLASSIFICATION" blocks — these are from our database. 
-   You MUST use these exact values for Bailable, Cognizable, Triable by, and IPC/BNS Equivalent. 
-   Do NOT override them with your own knowledge.
-10. For EACH applicable section, show its OWN legal details separately. 
-    Do NOT mix data from different sections.
+Keep answers CONCISE — max 20 lines. No repetition. No guessing.
 RELEVANT LEGAL SECTIONS:
 {context}"""),
     MessagesPlaceholder(variable_name="chat_history"),
@@ -117,7 +155,7 @@ RELEVANT LEGAL SECTIONS:
 
     rag_chain=(
         RunnablePassthrough.assign(
-            context=lambda x:format_docs(retriever.invoke(x['question']))
+            context=lambda x:format_docs(multi_retrieve(x['question'], retriever, expansion_llm))
         ) | prompt | llm | StrOutputParser()
     )
 
