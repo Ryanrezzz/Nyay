@@ -1,0 +1,24 @@
+# --- Phase 1: Data Pipeline ---
+pdfplumber==0.11.6          
+PyMuPDF==1.25.5              
+
+# --- Phase 1: Structured Storage ---
+# sqlite3 is built into Python — no install needed
+
+# --- Phase 2: Embeddings & Vector DB ---
+sentence-transformers==4.1.0
+faiss-cpu==1.11.0            
+
+# --- Phase 3: RAG Pipeline ---
+langchain==1.2.10            
+langchain-core==1.2.15       
+langchain-community==0.4.1   
+langchain-groq==0.3.2        
+langchain-google-genai==2.1.4
+
+# --- Phase 4: Frontend ---
+streamlit==1.44.1            
+
+# --- Shared / Utilities ---
+python-dotenv==1.1.0         
+torch==2.6.0 

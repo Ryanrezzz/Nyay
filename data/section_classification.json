@@ -1,0 +1,1406 @@
+{
+  "IPC_121": {
+    "ipc_section": "121",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_131": {
+    "ipc_section": "131",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_137": {
+    "ipc_section": "137",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_138": {
+    "ipc_section": "138",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_143": {
+    "ipc_section": "143",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_144": {
+    "ipc_section": "144",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_150": {
+    "ipc_section": "150",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_154": {
+    "ipc_section": "154",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_157": {
+    "ipc_section": "157",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_161": {
+    "ipc_section": "161",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_166": {
+    "ipc_section": "166",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_167": {
+    "ipc_section": "167",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_168": {
+    "ipc_section": "168",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_170": {
+    "ipc_section": "170",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_172": {
+    "ipc_section": "172",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "IPC_178": {
+    "ipc_section": "178",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_188": {
+    "ipc_section": "188",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_193": {
+    "ipc_section": "193",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_196": {
+    "ipc_section": "196",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_204": {
+    "ipc_section": "204",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_212": {
+    "ipc_section": "212",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_214": {
+    "ipc_section": "214",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_215": {
+    "ipc_section": "215",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_216": {
+    "ipc_section": "216",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_217": {
+    "ipc_section": "217",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": "Any Magistrate"
+  },
+  "IPC_218": {
+    "ipc_section": "218",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_223": {
+    "ipc_section": "223",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": "Any Magistrate"
+  },
+  "IPC_224": {
+    "ipc_section": "224",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_228": {
+    "ipc_section": "228",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_229": {
+    "ipc_section": "229",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_231": {
+    "ipc_section": "231",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_236": {
+    "ipc_section": "236",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_257": {
+    "ipc_section": "257",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_264": {
+    "ipc_section": "264",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_267": {
+    "ipc_section": "267",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_269": {
+    "ipc_section": "269",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_271": {
+    "ipc_section": "271",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_277": {
+    "ipc_section": "277",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_278": {
+    "ipc_section": "278",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_279": {
+    "ipc_section": "279",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_287": {
+    "ipc_section": "287",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_289": {
+    "ipc_section": "289",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_290": {
+    "ipc_section": "290",
+    "cognizable": false,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_291": {
+    "ipc_section": "291",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_295": {
+    "ipc_section": "295",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_302": {
+    "ipc_section": "302",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_309": {
+    "ipc_section": "309",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "IPC_313": {
+    "ipc_section": "313",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_324": {
+    "ipc_section": "324",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_335": {
+    "ipc_section": "335",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_353": {
+    "ipc_section": "353",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_356": {
+    "ipc_section": "356",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_363": {
+    "ipc_section": "363",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_371": {
+    "ipc_section": "371",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_379": {
+    "ipc_section": "379",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_399": {
+    "ipc_section": "399",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_406": {
+    "ipc_section": "406",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "IPC_419": {
+    "ipc_section": "419",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_428": {
+    "ipc_section": "428",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_435": {
+    "ipc_section": "435",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_449": {
+    "ipc_section": "449",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "IPC_509": {
+    "ipc_section": "509",
+    "cognizable": true,
+    "bailable": null,
+    "triable_by": null
+  },
+  "BNS_61": {
+    "bns_section": "61",
+    "title": "Criminal conspiracy",
+    "ipc_equivalent": "120B",
+    "punishment": "Same as if he abetted the offence",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_64": {
+    "bns_section": "64",
+    "title": "Punishment for rape",
+    "ipc_equivalent": "376",
+    "punishment": "Rigorous imprisonment not less than 10 years, extendable to life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_65": {
+    "bns_section": "65",
+    "title": "Rape on woman under 16 years",
+    "ipc_equivalent": "376(3)",
+    "punishment": "Imprisonment not less than 20 years, extendable to life (remainder of natural life), and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_66": {
+    "bns_section": "66",
+    "title": "Rape on woman under 12 years",
+    "ipc_equivalent": "376AB",
+    "punishment": "Rigorous imprisonment not less than 20 years, extendable to life or death",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_67": {
+    "bns_section": "67",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_68": {
+    "bns_section": "68",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_69": {
+    "bns_section": "69",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_70": {
+    "bns_section": "70",
+    "title": "Gang rape",
+    "ipc_equivalent": "376D",
+    "punishment": "Rigorous imprisonment not less than 20 years, extendable to life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_71": {
+    "bns_section": "71",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_72": {
+    "bns_section": "72",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_75": {
+    "bns_section": "75",
+    "title": "Sexual harassment",
+    "ipc_equivalent": "354A",
+    "punishment": "Rigorous imprisonment up to 3 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_76": {
+    "bns_section": "76",
+    "title": "Assault with intent to disrobe woman",
+    "ipc_equivalent": "354B",
+    "punishment": "Imprisonment 3 to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_77": {
+    "bns_section": "77",
+    "title": "Voyeurism",
+    "ipc_equivalent": "354C",
+    "punishment": "Imprisonment 1 to 3 years, and fine (first offence)",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_79": {
+    "bns_section": "79",
+    "title": "Word, gesture or act intended to insult modesty of woman",
+    "ipc_equivalent": "509",
+    "punishment": "Simple imprisonment up to 3 years, and fine",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_80": {
+    "bns_section": "80",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_82": {
+    "bns_section": "82",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_83": {
+    "bns_section": "83",
+    "cognizable": false,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_84": {
+    "bns_section": "84",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_85": {
+    "bns_section": "85",
+    "title": "Cruelty by husband or his relatives",
+    "ipc_equivalent": "498A",
+    "punishment": "Imprisonment up to 3 years, and fine",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_87": {
+    "bns_section": "87",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_88": {
+    "bns_section": "88",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_89": {
+    "bns_section": "89",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_90": {
+    "bns_section": "90",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_94": {
+    "bns_section": "94",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_95": {
+    "bns_section": "95",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_99": {
+    "bns_section": "99",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_103": {
+    "bns_section": "103",
+    "title": "Punishment for murder",
+    "ipc_equivalent": "302",
+    "punishment": "Death or imprisonment for life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_104": {
+    "bns_section": "104",
+    "title": "Punishment for murder by life-convict",
+    "ipc_equivalent": "303",
+    "punishment": "Death",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_105": {
+    "bns_section": "105",
+    "title": "Culpable homicide not amounting to murder",
+    "ipc_equivalent": "304",
+    "punishment": "Imprisonment for life, or up to 10 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_106": {
+    "bns_section": "106",
+    "title": "Death caused by negligence",
+    "ipc_equivalent": "304A",
+    "punishment": "Imprisonment up to 5 years, and fine",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_107": {
+    "bns_section": "107",
+    "title": "Abetment of suicide",
+    "ipc_equivalent": "306",
+    "punishment": "Imprisonment up to 10 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_109": {
+    "bns_section": "109",
+    "title": "Attempt to murder",
+    "ipc_equivalent": "307",
+    "punishment": "Imprisonment up to 10 years, and fine; if hurt caused, imprisonment for life or up to 10 years and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_110": {
+    "bns_section": "110",
+    "title": "Attempt to commit culpable homicide",
+    "ipc_equivalent": "308",
+    "punishment": "Imprisonment up to 3 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_111": {
+    "bns_section": "111",
+    "title": "Organised crime",
+    "ipc_equivalent": null,
+    "punishment": "Death or imprisonment for life, and fine not less than 10 lakhs",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_112": {
+    "bns_section": "112",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_113": {
+    "bns_section": "113",
+    "title": "Terrorist act",
+    "ipc_equivalent": null,
+    "punishment": "Death or imprisonment for life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_117": {
+    "bns_section": "117",
+    "title": "Voluntarily causing grievous hurt",
+    "ipc_equivalent": "325",
+    "punishment": "Imprisonment up to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_118": {
+    "bns_section": "118",
+    "title": "Voluntarily causing hurt by dangerous weapons",
+    "ipc_equivalent": "324",
+    "punishment": "Imprisonment up to 3 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_119": {
+    "bns_section": "119",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_120": {
+    "bns_section": "120",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_121": {
+    "bns_section": "121",
+    "title": "Voluntarily causing hurt to deter public servant",
+    "ipc_equivalent": "332",
+    "punishment": "Imprisonment up to 3 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_122": {
+    "bns_section": "122",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_123": {
+    "bns_section": "123",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_124": {
+    "bns_section": "124",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_125": {
+    "bns_section": "125",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_126": {
+    "bns_section": "126",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_127": {
+    "bns_section": "127",
+    "title": "Wrongful confinement",
+    "ipc_equivalent": "342",
+    "punishment": "Imprisonment up to 1 year, or fine up to 1000, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_132": {
+    "bns_section": "132",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_134": {
+    "bns_section": "134",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_135": {
+    "bns_section": "135",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_137": {
+    "bns_section": "137",
+    "title": "Kidnapping for ransom",
+    "ipc_equivalent": "364A",
+    "punishment": "Death or imprisonment for life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_139": {
+    "bns_section": "139",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_140": {
+    "bns_section": "140",
+    "title": "Trafficking of person",
+    "ipc_equivalent": "370",
+    "punishment": "Rigorous imprisonment 7 to 10 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_141": {
+    "bns_section": "141",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_142": {
+    "bns_section": "142",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_143": {
+    "bns_section": "143",
+    "title": "Trafficking of minor",
+    "ipc_equivalent": "370(4)",
+    "punishment": "Rigorous imprisonment 14 years to life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_144": {
+    "bns_section": "144",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_145": {
+    "bns_section": "145",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_146": {
+    "bns_section": "146",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_147": {
+    "bns_section": "147",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_148": {
+    "bns_section": "148",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_149": {
+    "bns_section": "149",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_152": {
+    "bns_section": "152",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_153": {
+    "bns_section": "153",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_154": {
+    "bns_section": "154",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_155": {
+    "bns_section": "155",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_156": {
+    "bns_section": "156",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_157": {
+    "bns_section": "157",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_158": {
+    "bns_section": "158",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_159": {
+    "bns_section": "159",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_160": {
+    "bns_section": "160",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_168": {
+    "bns_section": "168",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_178": {
+    "bns_section": "178",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_179": {
+    "bns_section": "179",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_181": {
+    "bns_section": "181",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_183": {
+    "bns_section": "183",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_184": {
+    "bns_section": "184",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_185": {
+    "bns_section": "185",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_186": {
+    "bns_section": "186",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_187": {
+    "bns_section": "187",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_188": {
+    "bns_section": "188",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_189": {
+    "bns_section": "189",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_194": {
+    "bns_section": "194",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_199": {
+    "bns_section": "199",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_204": {
+    "bns_section": "204",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_223": {
+    "bns_section": "223",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_232": {
+    "bns_section": "232",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_249": {
+    "bns_section": "249",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_250": {
+    "bns_section": "250",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_253": {
+    "bns_section": "253",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_254": {
+    "bns_section": "254",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_260": {
+    "bns_section": "260",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_263": {
+    "bns_section": "263",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_266": {
+    "bns_section": "266",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_285": {
+    "bns_section": "285",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_293": {
+    "bns_section": "293",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_294": {
+    "bns_section": "294",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_295": {
+    "bns_section": "295",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_303": {
+    "bns_section": "303",
+    "title": "Theft",
+    "ipc_equivalent": "379",
+    "punishment": "Imprisonment up to 3 years, or fine, or both",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_309": {
+    "bns_section": "309",
+    "title": "Dacoity",
+    "ipc_equivalent": "395",
+    "punishment": "Imprisonment for life, or rigorous imprisonment up to 10 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_310": {
+    "bns_section": "310",
+    "title": "Dacoity with murder",
+    "ipc_equivalent": "396",
+    "punishment": "Death or imprisonment for life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_311": {
+    "bns_section": "311",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_312": {
+    "bns_section": "312",
+    "title": "Criminal breach of trust",
+    "ipc_equivalent": "406",
+    "punishment": "Imprisonment up to 3 years, or fine, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_313": {
+    "bns_section": "313",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_316": {
+    "bns_section": "316",
+    "title": "Criminal breach of trust by carrier, banker, etc.",
+    "ipc_equivalent": "409",
+    "punishment": "Imprisonment for life, or up to 10 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_317": {
+    "bns_section": "317",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_326": {
+    "bns_section": "326",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_327": {
+    "bns_section": "327",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_331": {
+    "bns_section": "331",
+    "title": "House-trespass",
+    "ipc_equivalent": "448",
+    "punishment": "Imprisonment up to 1 year, or fine up to 1000, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_332": {
+    "bns_section": "332",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_340": {
+    "bns_section": "340",
+    "title": "Using forged document as genuine",
+    "ipc_equivalent": "471",
+    "punishment": "Same as for forgery of that document",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_341": {
+    "bns_section": "341",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_108": {
+    "bns_section": "108",
+    "title": "Attempt to commit suicide to compel restraint",
+    "ipc_equivalent": "309",
+    "punishment": "Simple imprisonment up to 1 year, or fine, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_115": {
+    "bns_section": "115",
+    "title": "Voluntarily causing hurt",
+    "ipc_equivalent": "323",
+    "punishment": "Imprisonment up to 1 year, or fine up to 10,000 or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_130": {
+    "bns_section": "130",
+    "title": "Kidnapping",
+    "ipc_equivalent": "360/361",
+    "punishment": "Imprisonment up to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_63": {
+    "bns_section": "63",
+    "title": "Rape",
+    "ipc_equivalent": "375",
+    "punishment": "Rigorous imprisonment not less than 10 years, may extend to life, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_74": {
+    "bns_section": "74",
+    "title": "Assault on woman with intent to outrage modesty",
+    "ipc_equivalent": "354",
+    "punishment": "Imprisonment 1 to 5 years, and fine",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_78": {
+    "bns_section": "78",
+    "title": "Stalking",
+    "ipc_equivalent": "354D",
+    "punishment": "Imprisonment up to 3 years, and fine (first offence)",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_86": {
+    "bns_section": "86",
+    "title": "Dowry death",
+    "ipc_equivalent": "304B",
+    "punishment": "Imprisonment not less than 7 years, extendable to life",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_191": {
+    "bns_section": "191",
+    "title": "Rioting",
+    "ipc_equivalent": "147",
+    "punishment": "Imprisonment up to 2 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_196": {
+    "bns_section": "196",
+    "title": "Promoting enmity between groups",
+    "ipc_equivalent": "153A",
+    "punishment": "Imprisonment up to 3 years, or fine, or both",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_218": {
+    "bns_section": "218",
+    "title": "Giving false evidence",
+    "ipc_equivalent": "193",
+    "punishment": "Imprisonment up to 7 years, and fine",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_226": {
+    "bns_section": "226",
+    "title": "Threatening a witness",
+    "ipc_equivalent": null,
+    "punishment": "Imprisonment 3 to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_240": {
+    "bns_section": "240",
+    "title": "Counterfeiting coin",
+    "ipc_equivalent": "231",
+    "punishment": "Imprisonment up to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_270": {
+    "bns_section": "270",
+    "title": "Public nuisance",
+    "ipc_equivalent": "268",
+    "punishment": "Fine up to 1000",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_281": {
+    "bns_section": "281",
+    "title": "Rash driving on public way",
+    "ipc_equivalent": "279",
+    "punishment": "Imprisonment up to 6 months, or fine up to 1000, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_296": {
+    "bns_section": "296",
+    "title": "Obscene acts and songs",
+    "ipc_equivalent": "294",
+    "punishment": "Imprisonment up to 3 months, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_304": {
+    "bns_section": "304",
+    "title": "Snatching",
+    "ipc_equivalent": null,
+    "punishment": "Imprisonment up to 3 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_305": {
+    "bns_section": "305",
+    "title": "Theft in dwelling house",
+    "ipc_equivalent": "380",
+    "punishment": "Imprisonment up to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_307": {
+    "bns_section": "307",
+    "title": "Robbery",
+    "ipc_equivalent": "392",
+    "punishment": "Rigorous imprisonment up to 10 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_308": {
+    "bns_section": "308",
+    "title": "Attempt to commit robbery",
+    "ipc_equivalent": "393",
+    "punishment": "Rigorous imprisonment up to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_314": {
+    "bns_section": "314",
+    "title": "Dishonest misappropriation of property",
+    "ipc_equivalent": "403",
+    "punishment": "Imprisonment up to 2 years, or fine, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_318": {
+    "bns_section": "318",
+    "title": "Cheating",
+    "ipc_equivalent": "415/420",
+    "punishment": "Imprisonment up to 3 years, or fine, or both; up to 7 years if delivery of property involved",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_319": {
+    "bns_section": "319",
+    "title": "Cheating by personation",
+    "ipc_equivalent": "416",
+    "punishment": "Imprisonment up to 5 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_329": {
+    "bns_section": "329",
+    "title": "Criminal trespass",
+    "ipc_equivalent": "441/447",
+    "punishment": "Imprisonment up to 3 months, or fine up to 5000, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_333": {
+    "bns_section": "333",
+    "title": "House-breaking",
+    "ipc_equivalent": "453",
+    "punishment": "Imprisonment up to 2 years, and fine",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_336": {
+    "bns_section": "336",
+    "title": "Forgery",
+    "ipc_equivalent": "463",
+    "punishment": "Imprisonment up to 2 years, or fine, or both",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_338": {
+    "bns_section": "338",
+    "title": "Forgery for purpose of cheating",
+    "ipc_equivalent": "468",
+    "punishment": "Imprisonment up to 7 years, and fine",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Magistrate First Class"
+  },
+  "BNS_351": {
+    "bns_section": "351",
+    "title": "Criminal intimidation",
+    "ipc_equivalent": "503/506",
+    "punishment": "Imprisonment up to 2 years, or fine, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_352": {
+    "bns_section": "352",
+    "title": "Intentional insult to provoke breach of peace",
+    "ipc_equivalent": "504",
+    "punishment": "Imprisonment up to 2 years, or fine, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_356": {
+    "bns_section": "356",
+    "title": "Defamation",
+    "ipc_equivalent": "499/500",
+    "punishment": "Simple imprisonment up to 2 years, or fine, or both",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Magistrate First Class"
+  }
+}
