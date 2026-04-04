@@ -1,0 +1,28 @@
+# Environment variables (API keys)
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Large binary files
+*.npy
+*.pkl
+*.faiss
+
+# Raw PDFs (too large for GitHub)
+data/raw_pdfs/
+
+# Extracted text (can be regenerated)
+data/extracted_text/
+
+# FAISS index files (can be regenerated)
+embeddings/faiss_index/
+embediings/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
