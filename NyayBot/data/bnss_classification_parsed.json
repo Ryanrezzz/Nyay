@@ -1,0 +1,674 @@
+{
+  "BNS_61": {
+    "bns_section": "61",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_64": {
+    "bns_section": "64",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_65": {
+    "bns_section": "65",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_66": {
+    "bns_section": "66",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_67": {
+    "bns_section": "67",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_68": {
+    "bns_section": "68",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_69": {
+    "bns_section": "69",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_70": {
+    "bns_section": "70",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_71": {
+    "bns_section": "71",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_72": {
+    "bns_section": "72",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_75": {
+    "bns_section": "75",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_76": {
+    "bns_section": "76",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_77": {
+    "bns_section": "77",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_79": {
+    "bns_section": "79",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_80": {
+    "bns_section": "80",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_82": {
+    "bns_section": "82",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_83": {
+    "bns_section": "83",
+    "cognizable": false,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_84": {
+    "bns_section": "84",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_85": {
+    "bns_section": "85",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_87": {
+    "bns_section": "87",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_88": {
+    "bns_section": "88",
+    "cognizable": false,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_89": {
+    "bns_section": "89",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_90": {
+    "bns_section": "90",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_94": {
+    "bns_section": "94",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_95": {
+    "bns_section": "95",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_99": {
+    "bns_section": "99",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_103": {
+    "bns_section": "103",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_104": {
+    "bns_section": "104",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_105": {
+    "bns_section": "105",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_106": {
+    "bns_section": "106",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_107": {
+    "bns_section": "107",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_109": {
+    "bns_section": "109",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_110": {
+    "bns_section": "110",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_111": {
+    "bns_section": "111",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_112": {
+    "bns_section": "112",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_113": {
+    "bns_section": "113",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_117": {
+    "bns_section": "117",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_118": {
+    "bns_section": "118",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_119": {
+    "bns_section": "119",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_120": {
+    "bns_section": "120",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_121": {
+    "bns_section": "121",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_122": {
+    "bns_section": "122",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_123": {
+    "bns_section": "123",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_124": {
+    "bns_section": "124",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_125": {
+    "bns_section": "125",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_126": {
+    "bns_section": "126",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_127": {
+    "bns_section": "127",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_132": {
+    "bns_section": "132",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_134": {
+    "bns_section": "134",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_135": {
+    "bns_section": "135",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_137": {
+    "bns_section": "137",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_139": {
+    "bns_section": "139",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_140": {
+    "bns_section": "140",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_141": {
+    "bns_section": "141",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_142": {
+    "bns_section": "142",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_143": {
+    "bns_section": "143",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_144": {
+    "bns_section": "144",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_145": {
+    "bns_section": "145",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_146": {
+    "bns_section": "146",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_147": {
+    "bns_section": "147",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_148": {
+    "bns_section": "148",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_149": {
+    "bns_section": "149",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_152": {
+    "bns_section": "152",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_153": {
+    "bns_section": "153",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_154": {
+    "bns_section": "154",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_155": {
+    "bns_section": "155",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_156": {
+    "bns_section": "156",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_157": {
+    "bns_section": "157",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_158": {
+    "bns_section": "158",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_159": {
+    "bns_section": "159",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_160": {
+    "bns_section": "160",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_168": {
+    "bns_section": "168",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_178": {
+    "bns_section": "178",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_179": {
+    "bns_section": "179",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_181": {
+    "bns_section": "181",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_183": {
+    "bns_section": "183",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_184": {
+    "bns_section": "184",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_185": {
+    "bns_section": "185",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_186": {
+    "bns_section": "186",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_187": {
+    "bns_section": "187",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_188": {
+    "bns_section": "188",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_189": {
+    "bns_section": "189",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_194": {
+    "bns_section": "194",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_199": {
+    "bns_section": "199",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_204": {
+    "bns_section": "204",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_223": {
+    "bns_section": "223",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_232": {
+    "bns_section": "232",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_249": {
+    "bns_section": "249",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_250": {
+    "bns_section": "250",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_253": {
+    "bns_section": "253",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_254": {
+    "bns_section": "254",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_260": {
+    "bns_section": "260",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_263": {
+    "bns_section": "263",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_266": {
+    "bns_section": "266",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_285": {
+    "bns_section": "285",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_293": {
+    "bns_section": "293",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_294": {
+    "bns_section": "294",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_295": {
+    "bns_section": "295",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_303": {
+    "bns_section": "303",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Any Magistrate"
+  },
+  "BNS_309": {
+    "bns_section": "309",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_310": {
+    "bns_section": "310",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_311": {
+    "bns_section": "311",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_312": {
+    "bns_section": "312",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_313": {
+    "bns_section": "313",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_316": {
+    "bns_section": "316",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": null
+  },
+  "BNS_317": {
+    "bns_section": "317",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_326": {
+    "bns_section": "326",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": "Court of Session"
+  },
+  "BNS_327": {
+    "bns_section": "327",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_331": {
+    "bns_section": "331",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_332": {
+    "bns_section": "332",
+    "cognizable": true,
+    "bailable": false,
+    "triable_by": "Court of Session"
+  },
+  "BNS_340": {
+    "bns_section": "340",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  },
+  "BNS_341": {
+    "bns_section": "341",
+    "cognizable": true,
+    "bailable": true,
+    "triable_by": null
+  }
+}
