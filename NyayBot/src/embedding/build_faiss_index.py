@@ -31,6 +31,8 @@ if __name__=='__main__':
 
     for i,section in enumerate(all_sections):
         text=f"{section['act']} Section {section['section_number']}: {section['title']}. {section['description']}"
+        if section.get('bailable'):
+            text += f"\nBailable: {section['bailable']}. Cognizable: {section['cognizable']}. Triable by: {section.get('triable_by', 'N/A')}."
         embedding= embedding_array[i].tolist()
         text_embedding_pairs.append((text,embedding))
         metadatas.append({
@@ -52,12 +54,9 @@ if __name__=='__main__':
     vector_store.save_local('embeddings/faiss_index')
 
     print('Test : punishmnet for murder')
-    results=vector_store.similarity_search('punishmnet for murder',k=3)
+    results=vector_store.similarity_search('punishmnet for murder',k=5)
     for i,doc in enumerate(results):
         m=doc.metadata
         print(f"Result {i+1}: {m['act']} {m['section_number']}: {m['title'][:60]}")
 
 
-
-
-        

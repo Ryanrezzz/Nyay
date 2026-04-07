@@ -21,6 +21,9 @@ def prepare_text(sections):
 
     for s in sections:
         text=f'''{s['act']} Section {s['section_number']}: {s['title']}. {s['description']}'''
+        if s.get('bailable'):
+            text += f"\nBailable: {s['bailable']}. Cognizable: {s['cognizable']}. Triable by: {s.get('triable_by', 'N/A')}."
+
         texts.append(text)
     return texts
 
