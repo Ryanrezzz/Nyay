@@ -67,9 +67,11 @@ def build_rag_chain():
     'Build chat based RAG chain with memory'
 
     load_dotenv()
+    # Resolve path relative to this file (works on both local and Streamlit Cloud)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     embedding_model = GoogleGenerativeAIEmbeddings(model='models/gemini-embedding-001')
     vector_store=FAISS.load_local(
-        'embeddings/faiss_index',
+        os.path.join(BASE_DIR, 'embeddings', 'faiss_index'),
         embedding_model,
         allow_dangerous_deserialization=True
     )
