@@ -15,67 +15,80 @@ def extract_schedule_text(pdf_path):
 
 
 def parse_classifications(text):
-    """ Parse the extracted text to find classification for each BNS section.
-    Each row in the table has:
-    - Section number (e.g., 64(1), 103, 303)
-    - Offence description
-    - Punishment
-    - Cognizable or Non-cognizable
-    - Bailable or Non-bailable
-    - Triable by which court """
-
     lines = text.split('\n')
-    classifications={}
-
+    classifications = {}
+    
+    # Step 1: Group lines into "blocks" — one block per section
+    blocks = []
+    current_block = ""
+    
     for line in lines:
-        if line.strip() in ['1 2 3 4 5 6', ""] or line.startswith('THE FIRST'):
+        # Skip headers
+        if line.strip() in ['1 2 3 4 5 6', ''] or 'THE FIRST' in line or 'CLASSIFICATION' in line:
             continue
+        if re.match(r'^\d{3}$', line.strip()) and int(line.strip()) > 172:  # skip page numbers like 215, 216
+            continue
+        
+        # If line starts with a section number like "64(1)", "103", "55"
+        # → start a NEW block
+        if re.match(r'^\d{1,3}(\([a-zA-Z0-9]+\))?\s', line):
+            if current_block:  # save previous block
+                blocks.append(current_block)
+            current_block = line
+        else:
+            # Continuation of previous block
+            current_block += " " + line.strip()
+    
+    if current_block:
+        blocks.append(current_block)
+    
+    print(f"Found {len(blocks)} blocks")  # Should be ~357!
+    
+    # Step 2: Parse each block (now it's ONE string per section)
+    for block in blocks:
+        match = re.match(r'^(\d{1,3}(?:\([a-zA-Z0-9]+\))?)\s+', block)
+        if not match:
+            continue
+        
+        section_num = match.group(1)
+        base_section = re.match(r'^(\d+)', section_num).group(1)
+        key = f'BNS_{base_section}'
+        
+        is_cognizable = None
+        is_bailable = None
+        triable_by = None
 
-        is_cognizable=None
-        is_bailable=None
-        triable_by=None
-
-        if 'Non-cognizable' in line:
+        # Remove extra spaces in words (PDF artifact)
+        block_clean = re.sub(r'(?<=\w)\s(?=\w)', '', block)  # "C o g n i z a b l e" → "Cognizable"
+        block_lower = block_clean.lower()
+        
+        if 'non-cognizable' in block_lower or 'n o n -' in block_lower:
             is_cognizable = False
-        elif 'Cognizable' in line:
+        elif 'cognizable' in block_lower or 'cognizable' in block_lower:
             is_cognizable = True
-
-        if 'Non-bailable' in line:
-            is_bailable=False
-        elif 'Bailable' in line:
-            is_bailable=True 
         
-        if 'Court of Session' in line:
-            triable_by= 'Court of Session'
-        elif "Magistrate of the first class" in line:
-            triable_by= "Magistrate First Class"
-        elif "Any Magistrate" in line:
-            triable_by= "Any Magistrate"
-
-        match = re.match(r'^(\d{1,3}(?:\([a-zA-Z0-9]+\))?)\s+', line)  
+        if 'non-bailable' in block_lower:
+            is_bailable = False
+        elif 'bailable' in block_lower:
+            is_bailable = True
         
-        if match and is_cognizable is not None:
-            section_num= match.group(1)
-             # Extract base number: 64(1) -> 64
-            base_section= re.match(r'^(\d+)',section_num).group(1)
-
-            key=f'BNS_{base_section}'
-
-            if key not in classifications:
-                classifications[key] = {
-                     "bns_section": base_section,
-                    "cognizable": is_cognizable,
-                    "bailable": is_bailable,
-                    "triable_by": triable_by
-                }
-
-            if classifications[key]["cognizable"] is None and is_cognizable is not None:
-                classifications[key]["cognizable"]= is_cognizable
-            if classifications[key]["bailable"] is None and is_bailable is not None:
-                classifications[key]["bailable"]= is_bailable
-            if classifications[key]["triable_by"] is None and triable_by is not None:
-                classifications[key]["triable_by"]= triable_by
+        if 'court of session' in block_lower:
+            triable_by = 'Court of Session'
+        elif 'magistrate of the first class' in block_lower or 'first class' in block_lower:
+            triable_by = 'Magistrate First Class'
+        elif 'any magistrate' in block_lower:
+            triable_by = 'Any Magistrate'
+        
+        if key not in classifications and is_cognizable is not None:
+            classifications[key] = {
+                "bns_section": base_section,
+                "cognizable": is_cognizable,
+                "bailable": is_bailable,
+                "triable_by": triable_by
+            }
+    
     return classifications
+
 
 
 def merge_with_existing(parsed,existing_path):

@@ -13,47 +13,17 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 
-with open('data/section_classification.json','r') as f:
-    CLASSIFICATIONS=json.load(f)
-    # Build reverse lookup: IPC section → BNS key
-    IPC_TO_BNS = {}
-    for key, data in CLASSIFICATIONS.items():
-        if key.startswith("BNS_") and data.get("ipc_equivalent"):
-            IPC_TO_BNS[data["ipc_equivalent"]] = key
-
-
 def format_docs(docs):
-    """Format retrieved docs with classification data."""
-    formatted=[]
+    formatted = []
     for doc in docs:
-        m= doc.metadata
-        act=m.get('act',"") 
-        section=m.get('section_number',"")
-        title=m.get('title',"")
-        
-        header=f"[{act} Section {section}] {title}"
-        content=doc.page_content
-
-        prefix = "BNS" if "Bharatiya" in act else "IPC"
-        key = f"{prefix}_{section}"
-        if key not in CLASSIFICATIONS and prefix == "IPC":
-            bns_key = IPC_TO_BNS.get(section)
-            if bns_key:
-                key = bns_key
-        if key in CLASSIFICATIONS:
-            c=CLASSIFICATIONS[key]
-            content+=f"\n\n⚠️ VERIFIED CLASSIFICATION (USE THESE VALUES EXACTLY):"
-            content+= f"\n- Cognizable: {'Yes' if c.get('cognizable') else 'No'}"
-            content+= f"\n- Bailable: {'Yes' if c.get('bailable') else 'No'}"
-            content+= f"\n- Triable by: {c.get('triable_by', 'Not available')}"
-            content+= f"\n- Punishment: {c.get('punishment', 'See section text')}"
-            if c.get("ipc_equivalent"):
-                content+= f"\n- IPC Equivalent: Section {c['ipc_equivalent']}"
-            if c.get("bns_equivalent"):
-                content+= f"\n- BNS Equivalent: Section {c['bns_equivalent']}"
-
-        formatted.append(f"{header}\n{content}")
+        m = doc.metadata
+        header = f"[{m.get('act','')} Section {m.get('section_number','')}] {m.get('title','')}"
+        formatted.append(f"{header}\n{doc.page_content}")
     return "\n\n---\n\n".join(formatted)
+
+
+
+
 
 def expand_query(user_query, llm):
     """Convert casual language to legal terminology."""

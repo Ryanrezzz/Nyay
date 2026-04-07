@@ -31,6 +31,8 @@ if __name__=='__main__':
 
     for i,section in enumerate(all_sections):
         text=f"{section['act']} Section {section['section_number']}: {section['title']}. {section['description']}"
+        if section.get('bailable'):
+            text += f"\nBailable: {section['bailable']}. Cognizable: {section['cognizable']}. Triable by: {section.get('triable_by', 'N/A')}."
         embedding= embedding_array[i].tolist()
         text_embedding_pairs.append((text,embedding))
         metadatas.append({
