@@ -1,6 +1,12 @@
 import streamlit as st
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
+# Inject Streamlit Cloud secrets into environment variables
+# so that os.getenv() calls in rag_pipeline.py work
+for key in st.secrets:
+    os.environ[key] = st.secrets[key]
+
 from src.rag.rag_pipeline import build_rag_chain
 
 st.set_page_config(page_title='NyayBot',page_icon='⚖️',layout='centered')
