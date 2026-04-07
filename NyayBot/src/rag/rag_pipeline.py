@@ -78,17 +78,17 @@ def build_rag_chain():
     retriever = vector_store.as_retriever(
         search_kwargs={"k": 5}
     )
-    llm = ChatOpenAI(
+    llm = ChatGroq(
+        model='llama-3.3-70b-versatile',
+        api_key=os.getenv("GROQ_API_KEY"),
+        temperature=0,
+        max_tokens=700
+    )
+
+    expansion_llm=ChatOpenAI(
         base_url="https://api.cerebras.ai/v1",
         api_key=os.getenv("CEREBRAS_API_KEY"),
         model='qwen-3-235b-a22b-instruct-2507',
-        temperature=0,
-        max_tokens=500
-    )
-
-    expansion_llm=ChatGroq(
-        model='llama-3.3-70b-versatile',
-        api_key=os.getenv("GROQ_API_KEY"),
         temperature=0.1,
         max_tokens=100  
     )
