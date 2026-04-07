@@ -1,19 +1,19 @@
-# --- Phase 1: Data Pipeline ---
-pdfplumber==0.11.6          
-PyMuPDF==1.25.5              
+# --- Data Pipeline ---
+pdfplumber
+PyMuPDF
 
-# --- Phase 2: Vector DB (runtime only) ---
-faiss-cpu==1.13.2            
+# --- Vector DB ---
+faiss-cpu
 
-# --- Phase 3: RAG Pipeline ---
-langchain==1.2.10            
-langchain-core==1.2.15       
-langchain-community==0.4.1   
-langchain-groq==1.1.2        
-langchain-google-genai==2.1.4
+# --- RAG Pipeline ---
+langchain
+langchain-core
+langchain-community
+langchain-groq
+langchain-google-genai
 
-# --- Phase 4: Frontend ---
-streamlit==1.44.1            
+# --- Frontend ---
+streamlit
 
-# --- Shared / Utilities ---
-python-dotenv==1.1.0         
+# --- Utilities ---
+python-dotenv
