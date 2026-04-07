@@ -10,6 +10,7 @@ langchain
 langchain-core
 langchain-community
 langchain-groq
+langchain-openai
 langchain-google-genai
 
 # --- Frontend ---
