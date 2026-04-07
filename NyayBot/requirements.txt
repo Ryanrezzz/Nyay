@@ -7,7 +7,7 @@ PyMuPDF==1.25.5
 
 # --- Phase 2: Embeddings & Vector DB ---
 sentence-transformers==4.1.0
-faiss-cpu==1.11.0            
+faiss-cpu==1.13.2            
 
 # --- Phase 3: RAG Pipeline ---
 langchain==1.2.10            
