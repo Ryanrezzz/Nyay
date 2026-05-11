@@ -61,7 +61,7 @@ def multi_retrieve(question, retriever, llm):
             seen.add(key)
             unique.append(doc)
     unique.sort(key=lambda d: 0 if "Bharatiya" in d.metadata.get('act','') else 1)
-    return unique[:7]
+    return unique[:10]
 
 
 def build_rag_chain():
@@ -77,7 +77,7 @@ def build_rag_chain():
         allow_dangerous_deserialization=True
     )
     retriever = vector_store.as_retriever(
-        search_kwargs={"k": 5}
+        search_kwargs={"k": 7}
     )
     llm = ChatOpenAI(
         base_url="https://api.cerebras.ai/v1",
