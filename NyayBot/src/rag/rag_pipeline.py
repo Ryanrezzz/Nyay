@@ -10,6 +10,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 
 def format_docs(docs):
@@ -77,9 +78,10 @@ def build_rag_chain():
     retriever = vector_store.as_retriever(
         search_kwargs={"k": 5}
     )
-    llm = ChatGroq(
-        model='llama-3.3-70b-versatile',
-        api_key=os.getenv("GROQ_API_KEY"),
+    llm = ChatOpenAI(
+        base_url="https://api.cerebras.ai/v1",
+        api_key=os.getenv("CEREBRAS_API_KEY"),
+        model='gpt-oss-120b',
         temperature=0,
         max_tokens=700
     )
