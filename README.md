@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://nyay.streamlit.app"><img src="https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B?style=for-the-badge" alt="Streamlit App"/></a>
+  <a href="https://g36knctqiqnwoqigkpqdjf.streamlit.app"><img src="https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B?style=for-the-badge" alt="Streamlit App"/></a>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
   <img src="https://img.shields.io/badge/LangChain-🦜-1C3C3C?style=for-the-badge" alt="LangChain"/>
   <img src="https://img.shields.io/badge/FAISS-Vector_Search-00599C?style=for-the-badge" alt="FAISS"/>
@@ -565,7 +565,7 @@ The app will be available at `http://localhost:8501`.
 
 ## ☁️ Deployment
 
-NyayBot is deployed on **Streamlit Cloud** at **[nyay.streamlit.app](https://nyay.streamlit.app)**.
+NyayBot is deployed on **Streamlit Cloud** at **[nyay.streamlit.app](https://g36knctqiqnwoqigkpqdjf.streamlit.app)**.
 
 The deployment requires:
 1. All files in the `embeddings/faiss_index/` directory committed to Git
