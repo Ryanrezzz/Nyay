@@ -79,9 +79,8 @@ def build_rag_chain():
         search_kwargs={"k": 5}
     )
     llm = ChatOpenAI(
-        base_url="https://api.cerebras.ai/v1",
-        api_key=os.getenv("CEREBRAS_API_KEY"),
-        model='qwen-3-235b-a22b-instruct-2507',
+        model='llama-3.3-70b-versatile',
+        api_key=os.getenv("GROQ_API_KEY"),
         temperature=0,
         max_tokens=700
     )
