@@ -35,7 +35,8 @@ Rules:
 - Use ONLY legal terminology — no section numbers, no act names
 - Do NOT add any explanation or commentary
 - Do NOT guess section numbers
-- Focus on the CRIME described, not the punishment
+- Cover ALL distinct offenses in the scenario (e.g. if someone kills during theft, cover BOTH the killing AND the theft/robbery)
+- Focus on the CRIMES described, not the punishment
 User's words: "{user_query}"
 """
     response = llm.invoke(prompt).content
