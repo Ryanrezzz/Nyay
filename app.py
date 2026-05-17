@@ -41,6 +41,14 @@ if question := st.chat_input('Ask about any criminal law situation...'):
                 {"question": question},
                 config={"configurable": {"session_id": st.session_state.session_id}}
             )
+            # Retry once if model returns empty (reasoning models can occasionally do this)
+            if not response or not response.strip():
+                response = chain.invoke(
+                    {"question": question},
+                    config={"configurable": {"session_id": st.session_state.session_id}}
+                )
+            if not response or not response.strip():
+                response = "⚠️ I couldn't generate a response right now. Please try again."
         st.markdown(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
 
