@@ -118,7 +118,7 @@ def build_rag_chain():
         api_key=os.getenv("CEREBRAS_API_KEY"),
         model='gpt-oss-120b',
         temperature=0,
-        max_tokens=1500
+        max_tokens=4096
     )
 
     expansion_llm=ChatGroq(
