@@ -6,6 +6,8 @@ import re
 from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import EnsembleRetriever
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -180,6 +182,23 @@ def lookup_sections(refs, section_index):
     return docs
 
 
+def maybe_rerank(query, docs, top_n=10):
+    """Optionally rerank candidates with Cohere when COHERE_API_KEY is set.
+
+    No-op when the key or package is unavailable, so the default deployment needs
+    no extra dependency. Install ``langchain-cohere`` and set COHERE_API_KEY to enable.
+    """
+    if not docs or not os.getenv("COHERE_API_KEY"):
+        return docs
+    try:
+        from langchain_cohere import CohereRerank
+        reranker = CohereRerank(model="rerank-english-v3.0", top_n=min(top_n, len(docs)))
+        return list(reranker.compress_documents(docs, query))
+    except Exception as e:
+        print(f"[WARN] Rerank skipped: {e}")
+        return docs
+
+
 def multi_retrieve(question, retriever, llm, section_index=None):
     """Search with expanded queries, pin explicitly-referenced sections, deduplicate."""
 
@@ -198,7 +217,13 @@ def multi_retrieve(question, retriever, llm, section_index=None):
         if key not in seen:
             seen.add(key)
             unique.append(doc)
-    unique.sort(key=lambda d: 0 if "Bharatiya" in d.metadata.get('act','') else 1)
+    unique = maybe_rerank(question, unique)
+    # Keep explicitly-requested sections on top, then BNS (current law) before IPC (old law).
+    pinned_keys = {f"{d.metadata.get('act')}_{d.metadata.get('section_number')}" for d in pinned}
+    def _order(d):
+        key = f"{d.metadata.get('act')}_{d.metadata.get('section_number')}"
+        return (0 if key in pinned_keys else 1, 0 if d.metadata.get('act') == 'BNS' else 1)
+    unique.sort(key=_order)
     return unique[:10]
 
 
@@ -214,11 +239,22 @@ def build_rag_chain():
         embedding_model,
         allow_dangerous_deserialization=True
     )
-    retriever = vector_store.as_retriever(
+    dense_retriever = vector_store.as_retriever(
         search_kwargs={"k": 7}
     )
     corpus_docs = get_all_docs(vector_store)
     section_index = build_section_index(corpus_docs)
+
+    # Hybrid retrieval: lexical BM25 (catches exact legal terms) + dense FAISS (semantics).
+    if corpus_docs:
+        bm25_retriever = BM25Retriever.from_documents(corpus_docs)
+        bm25_retriever.k = 7
+        retriever = EnsembleRetriever(
+            retrievers=[bm25_retriever, dense_retriever],
+            weights=[0.4, 0.6],
+        )
+    else:
+        retriever = dense_retriever
     llm = ChatOpenAI(
         base_url="https://api.cerebras.ai/v1",
         api_key=os.getenv("CEREBRAS_API_KEY"),
