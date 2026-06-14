@@ -2,6 +2,7 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 import json
+import re
 from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
@@ -59,13 +60,28 @@ def format_docs(docs):
 
 
 
+_BULLET_RE = re.compile(r'^[\s\-\*•‣◦\d\.\)\(:"\']+')
+
+
+def _clean_expansion_line(line):
+    """Strip leading bullets, numbering, and surrounding quotes from one expansion line."""
+    line = _BULLET_RE.sub('', line).strip()
+    return line.strip('"\'').strip()
+
+
 def expand_query(user_query, llm):
-    """Convert casual language to legal terminology."""
-    prompt = f"""You are a legal language translator. 
-Convert the user's everyday language into formal legal terminology 
+    """Convert casual language to legal terminology.
+
+    Robust to models that wrap phrases in bullets/numbering or add a preamble,
+    and never lets an expansion failure break retrieval — it falls back to the
+    original query alone.
+    """
+    prompt = f"""You are a legal language translator.
+Convert the user's everyday language into formal legal terminology
 as used in Indian criminal law (Bharatiya Nyaya Sanhita / BNS).
 Rules:
 - Give exactly 3 short phrases (5-10 words each)
+- Output ONLY the 3 phrases, one per line — no preamble, no numbering
 - Use ONLY legal terminology — no section numbers, no act names
 - Do NOT add any explanation or commentary
 - Do NOT guess section numbers
@@ -73,9 +89,21 @@ Rules:
 - Focus on the CRIMES described, not the punishment
 User's words: "{user_query}"
 """
-    response = llm.invoke(prompt).content
-    expanded = [q.strip() for q in response.strip().split("\n") if q.strip()]
-    print(f"[DEBUG] Expanded queries: {expanded}") 
+    try:
+        response = llm.invoke(prompt).content
+    except Exception as e:
+        print(f"[WARN] Query expansion failed, using original query only: {e}")
+        return [user_query]
+
+    expanded = []
+    for line in response.strip().split("\n"):
+        cleaned = _clean_expansion_line(line)
+        # Drop blanks, over-long lines, and preamble like "Here are 3 phrases:"
+        if not cleaned or len(cleaned.split()) > 12 or ':' in cleaned:
+            continue
+        expanded.append(cleaned)
+
+    print(f"[DEBUG] Expanded queries: {expanded[:3]}")
     return [user_query] + expanded[:3]
 
 
