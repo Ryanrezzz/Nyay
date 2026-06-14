@@ -13,12 +13,46 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 
+def load_classification_data():
+    """Load classification metadata (bailable, cognizable, triable_by, punishment) from JSON."""
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    classification_path = os.path.join(BASE_DIR, 'data', 'section_classification.json')
+    try:
+        with open(classification_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"[WARN] Classification file not found: {classification_path}")
+        return {}
+
+# Load once at module level
+CLASSIFICATION_DATA = load_classification_data()
+
+
 def format_docs(docs):
     formatted = []
     for doc in docs:
         m = doc.metadata
-        header = f"[{m.get('act','')} Section {m.get('section_number','')}] {m.get('title','')}"
-        formatted.append(f"{header}\n{doc.page_content}")
+        act = m.get('act', '')
+        sec_num = m.get('section_number', '')
+        header = f"[{act} Section {sec_num}] {m.get('title','')}"
+        body = doc.page_content
+
+        # Enrich with classification data from the JSON lookup
+        cls_key = f"{act}_{sec_num}"
+        cls = CLASSIFICATION_DATA.get(cls_key, {})
+
+        classification_lines = []
+        for field in ['punishment', 'bailable', 'cognizable', 'triable_by']:
+            val = cls.get(field)
+            if val is not None:
+                if isinstance(val, bool):
+                    val = "Yes" if val else "No"
+                classification_lines.append(f"{field.replace('_',' ').title()}: {val}")
+
+        if classification_lines:
+            body += "\n📊 Classification: " + " | ".join(classification_lines)
+
+        formatted.append(f"{header}\n{body}")
     return "\n\n---\n\n".join(formatted)
 
 
@@ -84,7 +118,7 @@ def build_rag_chain():
         api_key=os.getenv("CEREBRAS_API_KEY"),
         model='gpt-oss-120b',
         temperature=0,
-        max_tokens=700
+        max_tokens=4096
     )
 
     expansion_llm=ChatGroq(
@@ -119,6 +153,7 @@ PRIORITY RULES:
 2. THEN show IPC (old law, until 30 June 2024)
 3. If only one exists in <database>, show only that one
 4. NEVER swap this order
+5. In Indian law, the definition of an offence and its punishment are in SEPARATE sections (e.g. BNS 101 defines Murder, BNS 103 has the punishment). Show BOTH sections separately if they exist in <database>.
 
 STRICT LEGAL RULES (non negotiable):
 1. You may ONLY reference sections that appear inside <database> tags above. If a section is not inside <database>, it DOES NOT EXIST.
@@ -135,20 +170,25 @@ FORMAT (only for legal queries with database matches):
 📋 **Applicable Sections:**
 - [Act] Section [X]: [Title]
 
-⚖️ **BNS (Current Law — from 1 July 2024):**
+⚖️ **BNS — Definition (Current Law — from 1 July 2024):**
 | Field | Value |
 |-------|-------|
 | Section | [Number]: [Title] |
-| Punishment | [From database only] |
 | Bailable | [From database only, or "Not present in database"] |
 | Cognizable | [From database only, or "Not present in database"] |
 | Triable by | [From database only, or "Not present in database"] |
+
+⚖️ **BNS — Punishment:**
+| Field | Value |
+|-------|-------|
+| Section | [Punishment section number]: [Title] |
+| Punishment | [From database only, or "Not present in database"] |
 
 ⚖️ **IPC (Old Law — until 30 June 2024):**
 | Field | Value |
 |-------|-------|
 | Section | [Number]: [Title] |
-| Punishment | [From database only] |
+| Punishment | [From database only, or "Not present in database"] |
 | Bailable | [From database only, or "Not present in database"] |
 | Cognizable | [From database only, or "Not present in database"] |
 | Triable by | [From database only, or "Not present in database"] |
