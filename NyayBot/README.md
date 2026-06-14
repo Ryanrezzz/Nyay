@@ -67,7 +67,7 @@ Users can ask questions in everyday language — _"What happens if someone steal
 | Feature | Description |
 |---------|-------------|
 | 🔎 **Multi-Query Expansion** | Converts casual language into 3 legal search phrases using Llama 3.3 70B, then searches the hybrid index with all queries for broader recall |
-| 🔀 **Hybrid Retrieval** | Combines lexical **BM25** (exact legal terms) with **dense FAISS** vectors (semantics) via an `EnsembleRetriever` for higher precision |
+| 🔀 **Hybrid Retrieval** | Combines lexical **BM25** (exact legal terms) with **dense FAISS** vectors (semantics) via reciprocal-rank fusion for higher precision |
 | 🎯 **Direct Section Lookup** | Detects explicit references like _"IPC 302"_ or _"section 420"_ and pins those exact sections ahead of semantic results |
 | 🧠 **RAG with Zero Hallucination** | Strict prompt engineering ensures responses use **only** retrieved legal text — never fabricated sections |
 | ⚖️ **Dual-Law Coverage** | Always shows BNS (current) first, then IPC (old), so users understand both the active and legacy law |

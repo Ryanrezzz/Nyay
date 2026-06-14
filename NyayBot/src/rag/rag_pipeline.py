@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.retrievers import BM25Retriever
-from langchain.retrievers import EnsembleRetriever
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -127,6 +126,40 @@ def build_section_index(corpus_docs):
         if act and sec:
             index[(act, sec)] = doc
     return index
+
+
+class HybridRetriever:
+    """Reciprocal-rank fusion of a lexical (BM25) and a dense (FAISS) retriever.
+
+    Self-contained so we don't depend on EnsembleRetriever, whose import path
+    moved between langchain 0.x and 1.x. Exposes ``.invoke(query)`` so it drops
+    into ``multi_retrieve`` like any other retriever.
+    """
+
+    def __init__(self, lexical, dense, k=10, c=60):
+        self.lexical = lexical
+        self.dense = dense
+        self.k = k
+        self.c = c
+
+    @staticmethod
+    def _key(doc):
+        return f"{doc.metadata.get('act')}_{doc.metadata.get('section_number')}"
+
+    def invoke(self, query):
+        scores, docs = {}, {}
+        for retriever in (self.lexical, self.dense):
+            try:
+                results = retriever.invoke(query)
+            except Exception as e:
+                print(f"[WARN] {type(retriever).__name__} failed: {e}")
+                continue
+            for rank, doc in enumerate(results):
+                key = self._key(doc)
+                scores[key] = scores.get(key, 0.0) + 1.0 / (self.c + rank)
+                docs.setdefault(key, doc)
+        ranked = sorted(docs.values(), key=lambda d: scores[self._key(d)], reverse=True)
+        return ranked[:self.k]
 
 
 _ACT_ALIASES = [
@@ -249,10 +282,7 @@ def build_rag_chain():
     if corpus_docs:
         bm25_retriever = BM25Retriever.from_documents(corpus_docs)
         bm25_retriever.k = 7
-        retriever = EnsembleRetriever(
-            retrievers=[bm25_retriever, dense_retriever],
-            weights=[0.4, 0.6],
-        )
+        retriever = HybridRetriever(bm25_retriever, dense_retriever, k=10)
     else:
         retriever = dense_retriever
     llm = ChatOpenAI(
