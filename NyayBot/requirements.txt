@@ -4,6 +4,7 @@ PyMuPDF
 
 # --- Vector DB ---
 faiss-cpu
+numpy
 
 # --- RAG Pipeline ---
 langchain
