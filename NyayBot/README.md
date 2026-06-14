@@ -66,7 +66,9 @@ Users can ask questions in everyday language — _"What happens if someone steal
 
 | Feature | Description |
 |---------|-------------|
-| 🔎 **Multi-Query Expansion** | Converts casual language into 3 legal search phrases using Llama 3.3 70B, then searches FAISS with all queries for broader recall |
+| 🔎 **Multi-Query Expansion** | Converts casual language into 3 legal search phrases using Llama 3.3 70B, then searches the hybrid index with all queries for broader recall |
+| 🔀 **Hybrid Retrieval** | Combines lexical **BM25** (exact legal terms) with **dense FAISS** vectors (semantics) via an `EnsembleRetriever` for higher precision |
+| 🎯 **Direct Section Lookup** | Detects explicit references like _"IPC 302"_ or _"section 420"_ and pins those exact sections ahead of semantic results |
 | 🧠 **RAG with Zero Hallucination** | Strict prompt engineering ensures responses use **only** retrieved legal text — never fabricated sections |
 | ⚖️ **Dual-Law Coverage** | Always shows BNS (current) first, then IPC (old), so users understand both the active and legacy law |
 | 📋 **Verified Classifications** | 659 sections have verified bailable/cognizable/triable-by metadata parsed from official BNSS & CrPC schedules |
@@ -95,19 +97,20 @@ Users can ask questions in everyday language — _"What happens if someone steal
                            │  4 queries (original + 3 expanded)
                            ▼
                ┌───────────────────────┐
-               │   FAISS RETRIEVER     │
-               │  (893 sections,       │
-               │   3072-d vectors)     │
+               │   HYBRID RETRIEVER    │
+               │  BM25 + FAISS (893    │
+               │  sections, 3072-d)    │
                │                       │
-               │  Top-k=5 per query    │
-               │  Deduplicate → Top 7  │
+               │  Top-k=7 per query    │
+               │  Dedupe + pin refs    │
+               │  → Top 10             │
                └───────────┬───────────┘
-                           │  7 unique legal sections
+                           │  up to 10 unique legal sections
                            ▼
                ┌───────────────────────┐
                │   LLM GENERATION      │
-               │  (Cerebras / Qwen 3   │
-               │   235B-A22B)          │
+               │  (Cerebras /          │
+               │   GPT-OSS-120B)       │
                │                       │
                │  Strict prompt:       │
                │  • Only use <database> │
@@ -132,10 +135,11 @@ Users can ask questions in everyday language — _"What happens if someone steal
 |-----------|-----------|---------|
 | **Frontend** | Streamlit | Interactive chat UI with session state |
 | **Orchestration** | LangChain | RAG chain, prompt templates, memory management |
-| **Primary LLM** | Qwen 3 235B-A22B (via Cerebras) | Response generation with legal grounding |
+| **Primary LLM** | GPT-OSS-120B (via Cerebras) | Response generation with legal grounding |
 | **Expansion LLM** | Llama 3.3 70B (via Groq) | Query expansion — casual → legal terminology |
 | **Embeddings** | Google Gemini `gemini-embedding-001` | 3072-dimensional dense vectors |
-| **Vector Store** | FAISS (CPU) | Similarity search over 893 section embeddings |
+| **Vector Store** | FAISS (CPU) | Dense similarity search over 893 section embeddings |
+| **Lexical Search** | BM25 (`rank-bm25`) | Keyword retrieval fused with FAISS for hybrid search |
 | **PDF Parsing** | pdfplumber / PyMuPDF | Text extraction from official gazette PDFs |
 | **Deployment** | Streamlit Cloud | Hosted at `nyay.streamlit.app` |
 
@@ -231,7 +235,7 @@ Organized into logical groups:
 |-------|----------|
 | **Data Pipeline** | `pdfplumber`, `PyMuPDF` |
 | **Vector DB** | `faiss-cpu` |
-| **RAG Pipeline** | `langchain`, `langchain-core`, `langchain-community`, `langchain-groq`, `langchain-openai`, `langchain-google-genai` |
+| **RAG Pipeline** | `langchain`, `langchain-core`, `langchain-community`, `langchain-groq`, `langchain-openai`, `langchain-google-genai`, `rank-bm25` |
 | **Frontend** | `streamlit` |
 | **Utilities** | `python-dotenv` |
 
@@ -409,10 +413,12 @@ The heart of NyayBot — a multi-stage retrieval and generation pipeline.
 
 | Function | Purpose |
 |----------|---------|
-| `format_docs()` | Formats retrieved FAISS documents with act/section headers for the LLM context window |
-| `expand_query()` | Uses Llama 3.3 70B to convert casual user language into 3 formal legal search phrases |
-| `multi_retrieve()` | Searches FAISS with all 4 queries (original + 3 expanded), deduplicates by section ID, sorts BNS first, returns top 7 |
-| `build_rag_chain()` | Assembles the full LangChain pipeline with retriever, prompt, LLM, memory, and output parser |
+| `format_docs()` | Formats retrieved documents with act/section headers and enriches them with bailable/cognizable/punishment classification data |
+| `expand_query()` | Uses Llama 3.3 70B to convert casual user language into 3 formal legal search phrases (robust to bullets/numbering; falls back to the original query on failure) |
+| `find_section_refs()` / `lookup_sections()` | Detect explicit references like "IPC 302" or "section 420" and resolve them directly from the index |
+| `multi_retrieve()` | Pins any directly-referenced sections, runs all 4 queries (original + 3 expanded) through the hybrid BM25+FAISS retriever, deduplicates by section ID, sorts BNS first, returns top 10 |
+| `maybe_rerank()` | Optional Cohere reranking — activates only when `COHERE_API_KEY` is set, otherwise a no-op |
+| `build_rag_chain()` | Assembles the full LangChain pipeline with hybrid retriever, prompt, LLM, memory, and output parser |
 
 **Prompt Engineering Highlights:**
 
@@ -427,7 +433,7 @@ The heart of NyayBot — a multi-stage retrieval and generation pipeline.
 
 | LLM | Provider | Model | Purpose | Temperature |
 |-----|----------|-------|---------|-------------|
-| Primary | Cerebras | `qwen-3-235b-a22b-instruct-2507` | Response generation | 0 |
+| Primary | Cerebras | `gpt-oss-120b` | Response generation | 0 |
 | Expansion | Groq | `llama-3.3-70b-versatile` | Query expansion | 0.1 |
 
 **Memory System:**
