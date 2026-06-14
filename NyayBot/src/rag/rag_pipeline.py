@@ -107,17 +107,93 @@ User's words: "{user_query}"
     return [user_query] + expanded[:3]
 
 
-def multi_retrieve(question, retriever, llm):
-    """Search FAISS with original + expanded queries, deduplicate."""
+def get_all_docs(vector_store):
+    """Return every Document stored in the FAISS index (used for direct section lookup)."""
+    try:
+        return list(vector_store.docstore._dict.values())
+    except Exception as e:
+        print(f"[WARN] Could not read FAISS docstore: {e}")
+        return []
+
+
+def build_section_index(corpus_docs):
+    """Map (act, normalized_section_number) -> Document for O(1) direct lookups."""
+    index = {}
+    for doc in corpus_docs:
+        act = doc.metadata.get('act')
+        sec = str(doc.metadata.get('section_number', '')).upper().replace(' ', '')
+        if act and sec:
+            index[(act, sec)] = doc
+    return index
+
+
+_ACT_ALIASES = [
+    (re.compile(r'\bindian penal code\b', re.I), 'ipc'),
+    (re.compile(r'\bbharatiya nyaya sanhita\b', re.I), 'bns'),
+    (re.compile(r'\bi\.\s?p\.\s?c\.?', re.I), 'ipc'),
+    (re.compile(r'\bb\.\s?n\.\s?s\.?', re.I), 'bns'),
+]
+_SEP = r'(?:[\s.,:#-]|§|sections?|secs?|number|under|of|the|no|s){0,12}'
+_ACT_NUM = re.compile(r'\b(ipc|bns)' + _SEP + r'(\d{1,3}[a-z]?)\b', re.I)
+_NUM_ACT = re.compile(r'\b(\d{1,3}[a-z]?)' + _SEP + r'(ipc|bns)\b', re.I)
+_SECTION_NUM = re.compile(r'(?:\bsections?|\bsecs?|\bs\.|§)\s*(\d{1,3}[a-z]?)\b', re.I)
+
+
+def find_section_refs(query):
+    """Detect explicit section references like 'IPC 302', 'section 420', or 'BNS 103'.
+
+    Returns (act_or_None, section_number) tuples; act is None for a bare section
+    number with no act, meaning it should be looked up in both statutes.
+    """
+    q = query
+    for pattern, repl in _ACT_ALIASES:
+        q = pattern.sub(repl, q)
+    q = q.lower()
+
+    refs = []
+    for m in _ACT_NUM.finditer(q):
+        refs.append((m.group(1).upper(), m.group(2).upper()))
+    for m in _NUM_ACT.finditer(q):
+        refs.append((m.group(2).upper(), m.group(1).upper()))
+    numbered = {s for _, s in refs}
+    for m in _SECTION_NUM.finditer(q):
+        sec = m.group(1).upper()
+        if sec not in numbered:
+            refs.append((None, sec))
+
+    seen, out = set(), []
+    for ref in refs:
+        if ref not in seen:
+            seen.add(ref)
+            out.append(ref)
+    return out
+
+
+def lookup_sections(refs, section_index):
+    """Resolve detected section references to Documents from the FAISS index."""
+    docs = []
+    for act, sec in refs:
+        for a in ([act] if act else ['BNS', 'IPC']):
+            doc = section_index.get((a, sec))
+            if doc is not None:
+                docs.append(doc)
+    return docs
+
+
+def multi_retrieve(question, retriever, llm, section_index=None):
+    """Search with expanded queries, pin explicitly-referenced sections, deduplicate."""
+
+    # Pin sections the user named directly (e.g. "IPC 302") so they survive ranking.
+    pinned = lookup_sections(find_section_refs(question), section_index) if section_index else []
 
     queries = expand_query(question, llm)
-    all_docs = []
+    retrieved = []
     for q in queries:
-        all_docs.extend(retriever.invoke(q))
+        retrieved.extend(retriever.invoke(q))
     
     seen = set()
     unique = []
-    for doc in all_docs:
+    for doc in pinned + retrieved:
         key = f"{doc.metadata.get('act')}_{doc.metadata.get('section_number')}"
         if key not in seen:
             seen.add(key)
@@ -141,6 +217,8 @@ def build_rag_chain():
     retriever = vector_store.as_retriever(
         search_kwargs={"k": 7}
     )
+    corpus_docs = get_all_docs(vector_store)
+    section_index = build_section_index(corpus_docs)
     llm = ChatOpenAI(
         base_url="https://api.cerebras.ai/v1",
         api_key=os.getenv("CEREBRAS_API_KEY"),
@@ -237,7 +315,7 @@ REMINDER:
 
     rag_chain=(
         RunnablePassthrough.assign(
-            context=lambda x:format_docs(multi_retrieve(x['question'], retriever, expansion_llm))
+            context=lambda x:format_docs(multi_retrieve(x['question'], retriever, expansion_llm, section_index))
         ) | prompt | llm | StrOutputParser()
     )
 
