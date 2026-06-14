@@ -2,9 +2,11 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 import json
+import re
 from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain_community.retrievers import BM25Retriever
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -59,13 +61,28 @@ def format_docs(docs):
 
 
 
+_BULLET_RE = re.compile(r'^[\s\-\*•‣◦\d\.\)\(:"\']+')
+
+
+def _clean_expansion_line(line):
+    """Strip leading bullets, numbering, and surrounding quotes from one expansion line."""
+    line = _BULLET_RE.sub('', line).strip()
+    return line.strip('"\'').strip()
+
+
 def expand_query(user_query, llm):
-    """Convert casual language to legal terminology."""
-    prompt = f"""You are a legal language translator. 
-Convert the user's everyday language into formal legal terminology 
+    """Convert casual language to legal terminology.
+
+    Robust to models that wrap phrases in bullets/numbering or add a preamble,
+    and never lets an expansion failure break retrieval — it falls back to the
+    original query alone.
+    """
+    prompt = f"""You are a legal language translator.
+Convert the user's everyday language into formal legal terminology
 as used in Indian criminal law (Bharatiya Nyaya Sanhita / BNS).
 Rules:
 - Give exactly 3 short phrases (5-10 words each)
+- Output ONLY the 3 phrases, one per line — no preamble, no numbering
 - Use ONLY legal terminology — no section numbers, no act names
 - Do NOT add any explanation or commentary
 - Do NOT guess section numbers
@@ -73,28 +90,173 @@ Rules:
 - Focus on the CRIMES described, not the punishment
 User's words: "{user_query}"
 """
-    response = llm.invoke(prompt).content
-    expanded = [q.strip() for q in response.strip().split("\n") if q.strip()]
-    print(f"[DEBUG] Expanded queries: {expanded}") 
+    try:
+        response = llm.invoke(prompt).content
+    except Exception as e:
+        print(f"[WARN] Query expansion failed, using original query only: {e}")
+        return [user_query]
+
+    expanded = []
+    for line in response.strip().split("\n"):
+        cleaned = _clean_expansion_line(line)
+        # Drop blanks, over-long lines, and preamble like "Here are 3 phrases:"
+        if not cleaned or len(cleaned.split()) > 12 or ':' in cleaned:
+            continue
+        expanded.append(cleaned)
+
+    print(f"[DEBUG] Expanded queries: {expanded[:3]}")
     return [user_query] + expanded[:3]
 
 
-def multi_retrieve(question, retriever, llm):
-    """Search FAISS with original + expanded queries, deduplicate."""
+def get_all_docs(vector_store):
+    """Return every Document stored in the FAISS index (used for direct section lookup)."""
+    try:
+        return list(vector_store.docstore._dict.values())
+    except Exception as e:
+        print(f"[WARN] Could not read FAISS docstore: {e}")
+        return []
+
+
+def build_section_index(corpus_docs):
+    """Map (act, normalized_section_number) -> Document for O(1) direct lookups."""
+    index = {}
+    for doc in corpus_docs:
+        act = doc.metadata.get('act')
+        sec = str(doc.metadata.get('section_number', '')).upper().replace(' ', '')
+        if act and sec:
+            index[(act, sec)] = doc
+    return index
+
+
+class HybridRetriever:
+    """Reciprocal-rank fusion of a lexical (BM25) and a dense (FAISS) retriever.
+
+    Self-contained so we don't depend on EnsembleRetriever, whose import path
+    moved between langchain 0.x and 1.x. Exposes ``.invoke(query)`` so it drops
+    into ``multi_retrieve`` like any other retriever.
+    """
+
+    def __init__(self, lexical, dense, k=10, c=60):
+        self.lexical = lexical
+        self.dense = dense
+        self.k = k
+        self.c = c
+
+    @staticmethod
+    def _key(doc):
+        return f"{doc.metadata.get('act')}_{doc.metadata.get('section_number')}"
+
+    def invoke(self, query):
+        scores, docs = {}, {}
+        for retriever in (self.lexical, self.dense):
+            try:
+                results = retriever.invoke(query)
+            except Exception as e:
+                print(f"[WARN] {type(retriever).__name__} failed: {e}")
+                continue
+            for rank, doc in enumerate(results):
+                key = self._key(doc)
+                scores[key] = scores.get(key, 0.0) + 1.0 / (self.c + rank)
+                docs.setdefault(key, doc)
+        ranked = sorted(docs.values(), key=lambda d: scores[self._key(d)], reverse=True)
+        return ranked[:self.k]
+
+
+_ACT_ALIASES = [
+    (re.compile(r'\bindian penal code\b', re.I), 'ipc'),
+    (re.compile(r'\bbharatiya nyaya sanhita\b', re.I), 'bns'),
+    (re.compile(r'\bi\.\s?p\.\s?c\.?', re.I), 'ipc'),
+    (re.compile(r'\bb\.\s?n\.\s?s\.?', re.I), 'bns'),
+]
+_SEP = r'(?:[\s.,:#-]|§|sections?|secs?|number|under|of|the|no|s){0,12}'
+_ACT_NUM = re.compile(r'\b(ipc|bns)' + _SEP + r'(\d{1,3}[a-z]?)\b', re.I)
+_NUM_ACT = re.compile(r'\b(\d{1,3}[a-z]?)' + _SEP + r'(ipc|bns)\b', re.I)
+_SECTION_NUM = re.compile(r'(?:\bsections?|\bsecs?|\bs\.|§)\s*(\d{1,3}[a-z]?)\b', re.I)
+
+
+def find_section_refs(query):
+    """Detect explicit section references like 'IPC 302', 'section 420', or 'BNS 103'.
+
+    Returns (act_or_None, section_number) tuples; act is None for a bare section
+    number with no act, meaning it should be looked up in both statutes.
+    """
+    q = query
+    for pattern, repl in _ACT_ALIASES:
+        q = pattern.sub(repl, q)
+    q = q.lower()
+
+    refs = []
+    for m in _ACT_NUM.finditer(q):
+        refs.append((m.group(1).upper(), m.group(2).upper()))
+    for m in _NUM_ACT.finditer(q):
+        refs.append((m.group(2).upper(), m.group(1).upper()))
+    numbered = {s for _, s in refs}
+    for m in _SECTION_NUM.finditer(q):
+        sec = m.group(1).upper()
+        if sec not in numbered:
+            refs.append((None, sec))
+
+    seen, out = set(), []
+    for ref in refs:
+        if ref not in seen:
+            seen.add(ref)
+            out.append(ref)
+    return out
+
+
+def lookup_sections(refs, section_index):
+    """Resolve detected section references to Documents from the FAISS index."""
+    docs = []
+    for act, sec in refs:
+        for a in ([act] if act else ['BNS', 'IPC']):
+            doc = section_index.get((a, sec))
+            if doc is not None:
+                docs.append(doc)
+    return docs
+
+
+def maybe_rerank(query, docs, top_n=10):
+    """Optionally rerank candidates with Cohere when COHERE_API_KEY is set.
+
+    No-op when the key or package is unavailable, so the default deployment needs
+    no extra dependency. Install ``langchain-cohere`` and set COHERE_API_KEY to enable.
+    """
+    if not docs or not os.getenv("COHERE_API_KEY"):
+        return docs
+    try:
+        from langchain_cohere import CohereRerank
+        reranker = CohereRerank(model="rerank-english-v3.0", top_n=min(top_n, len(docs)))
+        return list(reranker.compress_documents(docs, query))
+    except Exception as e:
+        print(f"[WARN] Rerank skipped: {e}")
+        return docs
+
+
+def multi_retrieve(question, retriever, llm, section_index=None):
+    """Search with expanded queries, pin explicitly-referenced sections, deduplicate."""
+
+    # Pin sections the user named directly (e.g. "IPC 302") so they survive ranking.
+    pinned = lookup_sections(find_section_refs(question), section_index) if section_index else []
 
     queries = expand_query(question, llm)
-    all_docs = []
+    retrieved = []
     for q in queries:
-        all_docs.extend(retriever.invoke(q))
+        retrieved.extend(retriever.invoke(q))
     
     seen = set()
     unique = []
-    for doc in all_docs:
+    for doc in pinned + retrieved:
         key = f"{doc.metadata.get('act')}_{doc.metadata.get('section_number')}"
         if key not in seen:
             seen.add(key)
             unique.append(doc)
-    unique.sort(key=lambda d: 0 if "Bharatiya" in d.metadata.get('act','') else 1)
+    unique = maybe_rerank(question, unique)
+    # Keep explicitly-requested sections on top, then BNS (current law) before IPC (old law).
+    pinned_keys = {f"{d.metadata.get('act')}_{d.metadata.get('section_number')}" for d in pinned}
+    def _order(d):
+        key = f"{d.metadata.get('act')}_{d.metadata.get('section_number')}"
+        return (0 if key in pinned_keys else 1, 0 if d.metadata.get('act') == 'BNS' else 1)
+    unique.sort(key=_order)
     return unique[:10]
 
 
@@ -110,9 +272,19 @@ def build_rag_chain():
         embedding_model,
         allow_dangerous_deserialization=True
     )
-    retriever = vector_store.as_retriever(
+    dense_retriever = vector_store.as_retriever(
         search_kwargs={"k": 7}
     )
+    corpus_docs = get_all_docs(vector_store)
+    section_index = build_section_index(corpus_docs)
+
+    # Hybrid retrieval: lexical BM25 (catches exact legal terms) + dense FAISS (semantics).
+    if corpus_docs:
+        bm25_retriever = BM25Retriever.from_documents(corpus_docs)
+        bm25_retriever.k = 7
+        retriever = HybridRetriever(bm25_retriever, dense_retriever, k=10)
+    else:
+        retriever = dense_retriever
     llm = ChatOpenAI(
         base_url="https://api.cerebras.ai/v1",
         api_key=os.getenv("CEREBRAS_API_KEY"),
@@ -209,7 +381,7 @@ REMINDER:
 
     rag_chain=(
         RunnablePassthrough.assign(
-            context=lambda x:format_docs(multi_retrieve(x['question'], retriever, expansion_llm))
+            context=lambda x:format_docs(multi_retrieve(x['question'], retriever, expansion_llm, section_index))
         ) | prompt | llm | StrOutputParser()
     )
 
