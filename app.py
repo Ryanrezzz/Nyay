@@ -2,10 +2,31 @@ import streamlit as st
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
+# Load .env file manually (no dotenv dependency needed)
+_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+if os.path.exists(_env_path):
+    with open(_env_path) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith('#') and '=' in _line:
+                key, _, value = _line.partition('=')
+                key = key.strip()
+                value = value.strip().strip("'\"")
+                if key and key not in os.environ:  # don't override existing
+                    os.environ[key] = value
+
+# Debug: confirm LangSmith env vars are loaded
+print(f"[DEBUG] LANGCHAIN_TRACING_V2 = {os.getenv('LANGCHAIN_TRACING_V2')}")
+print(f"[DEBUG] LANGCHAIN_API_KEY = {'set ✅' if os.getenv('LANGCHAIN_API_KEY') else 'NOT SET ❌'}")
+print(f"[DEBUG] LANGCHAIN_PROJECT = {os.getenv('LANGCHAIN_PROJECT')}")
+
 # Inject Streamlit Cloud secrets into environment variables
-# so that os.getenv() calls in rag_pipeline.py work
-for key in st.secrets:
-    os.environ[key] = st.secrets[key]
+# so that os.getenv() calls in rag_pipeline.py work on Streamlit Cloud
+try:
+    for key in st.secrets:
+        os.environ[key] = st.secrets[key]
+except Exception:
+    pass  # Running locally — .env already loaded above
 
 from src.rag.rag_pipeline import build_rag_chain
 

@@ -4,16 +4,16 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import json
 import re
 from dotenv import load_dotenv
+from langsmith import traceable
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
-from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
-from langchain_groq import ChatGroq
 
 def load_classification_data():
     """Load classification metadata (bailable, cognizable, triable_by, punishment) from JSON."""
@@ -28,6 +28,7 @@ def load_classification_data():
 
 # Load once at module level
 CLASSIFICATION_DATA = load_classification_data()
+
 
 
 def format_docs(docs):
@@ -70,6 +71,7 @@ def _clean_expansion_line(line):
     return line.strip('"\'').strip()
 
 
+@traceable(name="ExpandQuery")
 def expand_query(user_query, llm):
     """Convert casual language to legal terminology.
 
@@ -232,6 +234,7 @@ def maybe_rerank(query, docs, top_n=10):
         return docs
 
 
+
 def multi_retrieve(question, retriever, llm, section_index=None):
     """Search with expanded queries, pin explicitly-referenced sections, deduplicate."""
 
@@ -286,18 +289,17 @@ def build_rag_chain():
     else:
         retriever = dense_retriever
     llm = ChatOpenAI(
-        base_url="https://api.cerebras.ai/v1",
-        api_key=os.getenv("CEREBRAS_API_KEY"),
-        model='gpt-oss-120b',
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model='gpt-5.4-mini',
         temperature=0,
         max_tokens=4096
     )
 
-    expansion_llm=ChatGroq(
-        model='llama-3.3-70b-versatile',
-        api_key=os.getenv("GROQ_API_KEY"),
-        temperature=0.1,
-        max_tokens=100  
+    expansion_llm=ChatOpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        model='gpt-5.4-mini',
+        temperature=0,
+        max_tokens=100
     )
 
     prompt=ChatPromptTemplate.from_messages([
@@ -385,10 +387,16 @@ REMINDER:
 - No websites, helplines, or civil remedies. Ever.""")
 ])
 
+    def _retrieve_and_format(inputs):
+        """Retrieve relevant docs and format them as context."""
+        question = inputs['question']
+        docs = multi_retrieve(question, retriever, expansion_llm, section_index)
+        return format_docs(docs)
+
     rag_chain=(
         RunnablePassthrough.assign(
-            context=lambda x:format_docs(multi_retrieve(x['question'], retriever, expansion_llm, section_index))
-        ) | prompt | llm | StrOutputParser()
+            context=RunnableLambda(_retrieve_and_format).with_config({"run_name": "RetrieveAndFormat"})
+        ) | prompt.with_config({"run_name": "PromptTemplate"}) | llm | StrOutputParser()
     )
 
     store={}

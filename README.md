@@ -66,7 +66,7 @@ Users can ask questions in everyday language — _"What happens if someone steal
 
 | Feature | Description |
 |---------|-------------|
-| 🔎 **Multi-Query Expansion** | Converts casual language into 3 legal search phrases using Llama 3.3 70B, then searches the hybrid index with all queries for broader recall |
+| 🔎 **Multi-Query Expansion** | Converts casual language into 3 legal search phrases using GPT-5.4-mini, then searches the hybrid index with all queries for broader recall |
 | 🔀 **Hybrid Retrieval** | Combines lexical **BM25** (exact legal terms) with **dense FAISS** vectors (semantics) via reciprocal-rank fusion for higher precision |
 | 🎯 **Direct Section Lookup** | Detects explicit references like _"IPC 302"_ or _"section 420"_ and pins those exact sections ahead of semantic results |
 | 🧠 **RAG with Zero Hallucination** | Strict prompt engineering ensures responses use **only** retrieved legal text — never fabricated sections |
@@ -88,7 +88,7 @@ Users can ask questions in everyday language — _"What happens if someone steal
                            ▼
                ┌───────────────────────┐
                │   QUERY EXPANSION     │
-               │  (Groq / Llama 3.3)   │
+               │  (OpenAI / GPT-5.4)   │
                │                       │
                │  → "theft of mobile"  │
                │  → "larceny movable"  │
@@ -109,8 +109,8 @@ Users can ask questions in everyday language — _"What happens if someone steal
                            ▼
                ┌───────────────────────┐
                │   LLM GENERATION      │
-               │  (Cerebras /          │
-               │   GPT-OSS-120B)       │
+               │  (OpenAI /            │
+               │   GPT-5.4-mini)       │
                │                       │
                │  Strict prompt:       │
                │  • Only use <database> │
@@ -135,8 +135,8 @@ Users can ask questions in everyday language — _"What happens if someone steal
 |-----------|-----------|---------|
 | **Frontend** | Streamlit | Interactive chat UI with session state |
 | **Orchestration** | LangChain | RAG chain, prompt templates, memory management |
-| **Primary LLM** | GPT-OSS-120B (via Cerebras) | Response generation with legal grounding |
-| **Expansion LLM** | Llama 3.3 70B (via Groq) | Query expansion — casual → legal terminology |
+| **Primary LLM** | GPT-5.4-mini (via OpenAI) | Response generation with legal grounding |
+| **Expansion LLM** | GPT-5.4-mini (via OpenAI) | Query expansion — casual → legal terminology |
 | **Embeddings** | Google Gemini `gemini-embedding-001` | 3072-dimensional dense vectors |
 | **Vector Store** | FAISS (CPU) | Dense similarity search over 893 section embeddings |
 | **Lexical Search** | BM25 (`rank-bm25`) | Keyword retrieval fused with FAISS for hybrid search |
@@ -235,7 +235,7 @@ Organized into logical groups:
 |-------|----------|
 | **Data Pipeline** | `pdfplumber`, `PyMuPDF` |
 | **Vector DB** | `faiss-cpu` |
-| **RAG Pipeline** | `langchain`, `langchain-core`, `langchain-community`, `langchain-groq`, `langchain-openai`, `langchain-google-genai`, `rank-bm25` |
+| **RAG Pipeline** | `langchain`, `langchain-core`, `langchain-community`, `langchain-openai`, `langchain-google-genai`, `rank-bm25` |
 | **Frontend** | `streamlit` |
 | **Utilities** | `python-dotenv` |
 
@@ -414,7 +414,7 @@ The heart of NyayBot — a multi-stage retrieval and generation pipeline.
 | Function | Purpose |
 |----------|---------|
 | `format_docs()` | Formats retrieved documents with act/section headers and enriches them with bailable/cognizable/punishment classification data |
-| `expand_query()` | Uses Llama 3.3 70B to convert casual user language into 3 formal legal search phrases (robust to bullets/numbering; falls back to the original query on failure) |
+| `expand_query()` | Uses GPT-5.4-mini to convert casual user language into 3 formal legal search phrases (robust to bullets/numbering; falls back to the original query on failure) |
 | `find_section_refs()` / `lookup_sections()` | Detect explicit references like "IPC 302" or "section 420" and resolve them directly from the index |
 | `multi_retrieve()` | Pins any directly-referenced sections, runs all 4 queries (original + 3 expanded) through the hybrid BM25+FAISS retriever, deduplicates by section ID, sorts BNS first, returns top 10 |
 | `maybe_rerank()` | Optional Cohere reranking — activates only when `COHERE_API_KEY` is set, otherwise a no-op |
@@ -433,8 +433,8 @@ The heart of NyayBot — a multi-stage retrieval and generation pipeline.
 
 | LLM | Provider | Model | Purpose | Temperature |
 |-----|----------|-------|---------|-------------|
-| Primary | Cerebras | `gpt-oss-120b` | Response generation | 0 |
-| Expansion | Groq | `llama-3.3-70b-versatile` | Query expansion | 0.1 |
+| Primary | OpenAI | `gpt-5.4-mini` | Response generation | 0 |
+| Expansion | OpenAI | `gpt-5.4-mini` | Query expansion | 0 |
 
 **Memory System:**
 - Uses `ChatMessageHistory` with `RunnableWithMessageHistory`
@@ -522,7 +522,7 @@ streamlit run app.py
 ### Prerequisites
 
 - Python 3.10+
-- API keys for Google Gemini, Cerebras, and Groq
+- API keys for Google Gemini and OpenAI
 
 ### Install
 
@@ -547,8 +547,7 @@ Create a `.env` file in the project root:
 
 ```env
 GOOGLE_API_KEY="your-google-gemini-api-key"
-GROQ_API_KEY="your-groq-api-key"
-CEREBRAS_API_KEY="your-cerebras-api-key"
+OPENAI_API_KEY="your-openai-api-key"
 ```
 
 For **Streamlit Cloud**, add these same keys in the app's **Secrets** section (Settings → Secrets).
